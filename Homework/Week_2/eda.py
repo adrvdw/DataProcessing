@@ -11,25 +11,28 @@ INPUT_CSV = "input.csv"
 input = pd.read_csv(INPUT_CSV)
 list_gdp = []
 
-country = "Country"
-region = "Region"
-pop_density = "Pop. Density (per sq. mi.)"
-infant_mortality = "Infant mortality (per 1000 births)"
-gdp = "GDP ($ per capita) dollars"
+if __name__ == "__main__":
+
+    country = "Country"
+    region = "Region"
+    pop_density = "Pop. Density (per sq. mi.)"
+    infant_mortality = "Infant mortality (per 1000 births)"
+    gdp = "GDP ($ per capita) dollars"
 
 
-input[gdp] = input[gdp].str.strip("dollars")
-input = input.replace("unknown", np.NaN)
-input[region] = input[region].str.strip()
+    input[gdp] = input[gdp].str.strip("dollars")
+    input = input.replace("unknown", np.NaN)
+    input[region] = input[region].str.strip()
 
 
+    input[gdp] = input[gdp].astype(float)
+    input[infant_mortality] = input[infant_mortality].str.replace(',', '.').astype(float)
+    list_gdp = input[gdp].tolist()
+    list_gdp.remove(max(list_gdp))
 
-input[gdp] = input[gdp].astype(float)
-input[infant_mortality] = input[infant_mortality].str.replace(',', '.').astype(float)
-list_gdp = input[gdp].tolist()
-list_gdp.remove(max(list_gdp))
 
-input = input[[country,region,pop_density,infant_mortality,gdp]]
+    input = input[[country,region,pop_density,infant_mortality,gdp]]
+
 
 cleaned_gdp_list = [x for x in list_gdp if str(x) != 'nan']
 
