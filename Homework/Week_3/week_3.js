@@ -145,4 +145,3 @@ for (let y = 100; y < 910; y += 100) {
         ctx.font = '40px arial';
         ctx.fillText('Ad Ruigrok van der Werve', 100, 950);
         ctx.fillText('Javascript week3', 100, 1050);
-        ctx.fillText('', 100, 1150);
