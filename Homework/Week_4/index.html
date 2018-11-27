@@ -1,0 +1,99 @@
+<!-- Ad Ruigrok van der Werve -->
+<!-- 11323760 -->
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style> /* set the CSS */
+
+.bar {
+    fill: steelblue;
+  }
+.bar:hover {
+	  fill: brown;
+	}
+text {
+    font-family: sans-serif;
+  }
+
+</style>
+<body>
+  <script src="//d3js.org/d3.v5.min.js"></script>
+  <script type="text/javascript">
+
+  var scale = d3.scaleLinear();
+
+  var dataset = d3.json("index.json").then(function(dataset){
+  // margins of dataset
+  var margin =
+  {top: 20,
+    right: 0,
+    bottom: 30,
+    left: 40},
+
+    // dimensions of dataset
+    width = 1160 - margin.right - margin.left
+    height = 1450 - margin.top - margin.bottom;
+
+  // x range
+  var x = d3.scaleBand()
+	.rangeRound([0, width])
+	.padding(0.1);
+  // y range
+  var y = d3.scaleLinear()
+  	.rangeRound([height, 0]);
+
+  // create and append SVG to page
+  var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("fill", "#039BE5")
+    .attr("stroke", "#039BE5")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+
+    x.domain(dataset.map(function(d) { return d.TIME; }));
+    y.domain([0, d3.max(dataset, function(d) { return d.Value; })]);
+
+    // append bars for SVG
+    svg.selectAll(".bar")
+      .data(dataset)
+      .enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", function(d) { return x(d.TIME); })
+        .attr("width", x.bandwidth())
+        .attr("y", function(d) { return y(d.Value); })
+        .attr("height", function(d) { return height - y(d.Value); });
+
+    // add x axis
+    svg.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+    // add y axis
+    svg.append("g")
+        .call(d3.axisLeft(y));
+
+
+    svg.append("text")
+       .attr("transform", "rotate(-90)")
+       .attr("y", 6)
+       .attr("dy", "0.71em")
+       .attr("text-anchor", "end")
+       .text("Value");
+
+
+    d3.select("body").append("p")
+       .text("Barchart of Belgium")
+       .append("p")
+       .text("Ad Ruigrok van der Werve")
+       .append("p")
+       .text("11323760")
+       .append("p")
+       .text("This bar chart shows data retrieved from OECD");
+    });
+
+
+    </script>
+
+</body>
